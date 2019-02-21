@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dao.StudentDao">
+
+    <select id="selectLoginStudent" parameterType="String" resultType="Student">
+        SELECT * FROM t_xuesheng WHERE loginname=#{0} AND loginpw=#{1}
+   </select>
+
+
+    <select id="selectStudentKeBiao" resultMap="kebiao">
+        SELECT  kb.`kecheng_id` , kc.`bianhao` ,kc.`mingcheng`,kc.`keshi`, kb.`shijian`,kb.`jieci`,kb.`jiaoshi` ,ls.`xingming`
+        FROM t_kebiao kb,t_kecheng kc,t_laoshi ls
+        WHERE kb.`laoshi_id`=ls.`id` AND kb.`kecheng_id`=kc.`id`
+    </select>
+    <resultMap id="kebiao" type="KeBiao">
+        <result column="kecheng_id" property="kecheng_id"/>
+        <result column="shijian" property="shijian"/>
+        <result column="jieci" property="jieci"/>
+        <result column="jiaoshi" property="jiaoshi"/>
+        <result column="laoshi_id" property="laoshi_id"/>
+        <association property="teacher" javaType="Teacher" resultMap="tt"></association>
+        <association property="kecheng" javaType="KeCheng" resultMap="kk"></association>
+    </resultMap>
+    <resultMap type="Teacher" id="tt">
+        <result property="xingming" column="xingming"/>
+    </resultMap>
+    <resultMap id="kk" type="KeCheng">
+      <result property="bianhao" column="bianhao"/>
+     <result property="mingcheng" column="mingcheng"/>
+     <result property="keshi" column="keshi"/>
+</resultMap>
+     <select id="selectStudentXuanKe" resultMap="xuanke" parameterType="int">
+    SELECT  kb.`kecheng_id` , kc.`bianhao` ,kc.`mingcheng`,kc.`keshi`, kb.`shijian`,kb.`jieci`,kb.`jiaoshi` ,ls.`xingming`
+        FROM t_kebiao kb,t_kecheng kc,t_laoshi ls,t_xuesheng_kebiao txk
+        WHERE kb.`laoshi_id`=ls.`id` AND kb.`kecheng_id`=kc.`id`AND txk.xuesheng_id=#{0} AND kb.`id`=txk.kebiao_id
+     </select>
+    <resultMap id="xuanke" type="KeBiao">
+         <result column="kecheng_id" property="kecheng_id"/>
+         <result column="shijian" property="shijian"/>
+         <result column="jieci" property="jieci"/>
+         <result column="jiaoshi" property="jiaoshi"/>
+         <result column="laoshi_id" property="laoshi_id"/>
+         <association property="teacher" javaType="Teacher" resultMap="ttt"></association>
+         <association property="kecheng" javaType="KeCheng" resultMap="kkk"></association>
+     </resultMap>
+     <resultMap type="Teacher" id="ttt">
+         <result property="xingming" column="xingming"/>
+     </resultMap>
+     <resultMap  type="KeCheng" id="kkk">
+         <result property="bianhao" column="bianhao"/>
+         <result property="mingcheng" column="mingcheng"/>
+         <result property="keshi" column="keshi"/>
+     </resultMap>
+
+    <select id="selectStudentXinxi" resultType="Student">
+        SELECT * FROM t_xuesheng
+    </select>
+
+    <insert id="insertStudent" parameterType="Student">
+        INSERT t_xuesheng(xuehao,xingming,xingbie,nianling,banji,loginname,loginpw)
+      VALUE(#{xuehao},#{xingming},#{xingbie},#{nianling},#{banji},#{loginname},#{loginpw})
+    </insert>
+
+    <delete id="deleteStudent" parameterType="int">
+         DELETE  FROM t_xuesheng WHERE id=#{0}
+    </delete>
+</mapper>

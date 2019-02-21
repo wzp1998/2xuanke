@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dao.AdminDao">
+
+
+    <select id="selectLoginAdmin" parameterType="String" resultType="Admin">
+        SELECT * FROM t_admin WHERE userName=#{0} AND userPwd=#{1}
+   </select>
+    <update id="updateAdminPwd" parameterType="String">
+        UPDATE t_admin SET userPwd=#{0} WHERE userName=#{1}
+    </update>
+    <select id="selectKecheng" resultType="KeCheng">
+        SELECT * FROM t_kecheng
+    </select>
+    <insert id="insertKecheng" parameterType="KeCheng">
+        INSERT	t_kecheng(bianhao,mingcheng,keshi) VALUES(#{bianhao},#{mingcheng},#{keshi})
+    </insert>
+    <delete id="deleteKecheng" parameterType="int">
+         DELETE  FROM t_kecheng WHERE id=#{0}
+    </delete>
+    <insert id="insertKebiao" parameterType="Kebiao">
+         INSERT	t_kebiao(kecheng_id,shijian,jieci,jiaoshi,laoshi_id) VALUE(#{kecheng_id},#{shijian},#{jieci},#{jiaoshi},#{laoshi_id})
+    </insert>
+</mapper>

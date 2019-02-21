@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dao.TeacherDao">
+
+
+    <select id="selectLoginTeacher" parameterType="String" resultType="Teacher">
+        SELECT * FROM t_laoshi WHERE loginname=#{0} AND loginpwd=#{1}
+   </select>
+
+   <select id="selectTeacherXinxi" resultType="Teacher">
+       SELECT * FROM t_laoshi
+   </select>
+
+    <insert id="insertTeacher" parameterType="Teacher">
+        INSERT t_laoshi(bianhao,xingming,xingbie,nianling,zhicheng,loginname,loginpwd)
+   VALUE(#{bianhao},#{xingming},#{xingbie},#{nianling},#{zhicheng},#{loginname},#{loginpwd})
+    </insert>
+    <delete id="deleteTeacher" parameterType="int">
+        DELETE  FROM t_laoshi WHERE id=#{0}
+    </delete>
+</mapper>
